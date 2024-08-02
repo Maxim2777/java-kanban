@@ -1,4 +1,5 @@
 public class Task {
+    protected int ID;
     protected String name;
     protected String description;
     protected TaskStatus taskStatus = TaskStatus.NEW;
@@ -17,9 +18,10 @@ public class Task {
         }
     }
 
-    public Task(String name, String description) {
+    public Task(String name, String description, int ID) {
         this.name = name;
         this.description = description;
+        this.ID = ID;
     }
 
     public String getName() {
@@ -33,4 +35,5 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

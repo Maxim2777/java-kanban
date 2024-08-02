@@ -9,8 +9,8 @@ public class Subtask extends Task {
         this.epicID = epicID;
     }
 
-    public Subtask(String name, String description) {
-        super(name, description);
+    public Subtask(String name, String description, int ID) {
+        super(name, description, ID);
     }
 
     public void changeStatusFromEpic(int choice) {

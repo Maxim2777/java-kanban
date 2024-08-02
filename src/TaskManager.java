@@ -3,13 +3,13 @@ import java.util.Map;
 
 public class TaskManager {
 
-    static int taskID = 0;
-    static HashMap<Integer, Task> tasks  = new HashMap<>();
-    static HashMap<Integer, Epic> epicTasks = new HashMap<>();
-    static HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private int taskID = 0;
+    private final HashMap<Integer, Task> tasks  = new HashMap<>();
+    private final HashMap<Integer, Epic> epicTasks = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
     //Метод для удаления всех заадач
-    public static void deleteAllTasks() {
+    public void deleteAllTasks() {
         tasks.clear();
         epicTasks.clear();
         subtasks.clear();
@@ -18,7 +18,7 @@ public class TaskManager {
 
     //Получение задачи по id
     //Метод проверяет, к какому типу задачи принадлежит данный ID и выводит информацию, с учетом этого
-    public static String getTaskInfo(int ID) {
+    public String getTaskInfo(int ID) {
         String taskInfo;
 
         if (tasks.containsKey(ID)) {
@@ -42,7 +42,7 @@ public class TaskManager {
     }
 
     //Обновить содержимое задачи по ID
-    public static void updateTaskDescription(int updateTaskID, String updatedDescription) {
+    public void updateTaskDescription(int updateTaskID, String updatedDescription) {
 
         if (tasks.containsKey(updateTaskID)) {
             Task updatedTask = tasks.get(updateTaskID);
@@ -65,7 +65,7 @@ public class TaskManager {
     }
 
     //Удалить задачу по ID
-    public static void deleteByID(int deleteTaskID) {
+    public void deleteByID(int deleteTaskID) {
 
         if (tasks.containsKey(deleteTaskID)) {
             tasks.remove(deleteTaskID);
@@ -92,7 +92,7 @@ public class TaskManager {
     }
 
     //Измение статуса задачи
-    public static void changeTaskStatus(int changeTaskStatusID, int choice) {
+    public void changeTaskStatus(int changeTaskStatusID, int choice) {
 
         if (tasks.containsKey(changeTaskStatusID)) {
             Task newStatusTask = tasks.get(changeTaskStatusID);
@@ -121,7 +121,7 @@ public class TaskManager {
     }
 
     //Получение списка всех задач
-    public static String listOfAllTasks() {
+    public String listOfAllTasks() {
         String allTasks = "Список задач:";
         for (Map.Entry<Integer, Task> hashMap : tasks.entrySet()) {
             Integer ID = hashMap.getKey();
@@ -150,29 +150,29 @@ public class TaskManager {
     }
 
     //Добавить обычную задачу
-    public static void addTask(String name, String description) {
-        Task addTask = new Task(name, description);
+    public void addTask(String name, String description) {
+        Task addTask = new Task(name, description, taskID);
         tasks.put(taskID, addTask);
         System.out.println("Добавлена задача с ID " + taskID);
         taskID += 1;
     }
 
     //Добавить эпик задачу
-    public static void addEpicTask(String epicName, String epicDescription) {
-        Epic addTask1 = new Epic(epicName, epicDescription);
-        epicTasks.put(taskID, addTask1);
+    public void addEpicTask(String epicName, String epicDescription) {
+        Epic addEpic = new Epic(epicName, epicDescription, taskID);
+        epicTasks.put(taskID, addEpic);
         System.out.println("Добавлена эпик задача с ID " + taskID);
         taskID += 1;
     }
 
     //Добавить подзадачу
-    public static void addSubtask(int epicID, String subtaskName,String subtaskDescription) {
+    public void addSubtask(int epicID, String subtaskName,String subtaskDescription) {
         if (epicTasks.containsKey(epicID)) {
 
-            Subtask addTask3 = new Subtask(subtaskName, subtaskDescription);
-            addTask3.setEpicID(epicID);
+            Subtask addSubtask = new Subtask(subtaskName, subtaskDescription, taskID);
+            addSubtask.setEpicID(epicID);
 
-            subtasks.put(taskID, addTask3);
+            subtasks.put(taskID, addSubtask);
 
             Epic epic = epicTasks.get(epicID);
             epic.subtasksAdd(taskID);

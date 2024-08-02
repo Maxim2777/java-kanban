@@ -20,8 +20,8 @@ public class Epic extends Task {
         subtasksID.add(taskID);
     }
 
-    public Epic(String name, String description) {
-        super(name, description);
+    public Epic(String name, String description, int ID) {
+        super(name, description, ID);
     }
 
     //Измение стауса эпика вслед за подзадачами

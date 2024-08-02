@@ -5,6 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
+        TaskManager taskManager = new TaskManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -19,7 +20,7 @@ public class Main {
                     String name = scanner.nextLine();
                     System.out.println("Введите описание Задачи");
                     String description = scanner.nextLine();
-                    TaskManager.addTask(name, description);
+                    taskManager.addTask(name, description);
                     break;
 
                 case "1.2":
@@ -28,7 +29,7 @@ public class Main {
                     String epicName = scanner.nextLine();
                     System.out.println("Введите описание Эпик Задачи");
                     String epicDescription = scanner.nextLine();
-                    TaskManager.addEpicTask(epicName, epicDescription);
+                    taskManager.addEpicTask(epicName, epicDescription);
                     break;
 
                 case "1.3":
@@ -40,18 +41,18 @@ public class Main {
                     String subtaskName = scanner.nextLine();
                     System.out.println("Введите описание Подзадачи");
                     String subtaskDescription = scanner.nextLine();
-                    TaskManager.addSubtask(epicID, subtaskName, subtaskDescription);
+                    taskManager.addSubtask(epicID, subtaskName, subtaskDescription);
                     break;
 
                 case "2":
                     //Получение списка всех задач
-                    String allTasks = TaskManager.listOfAllTasks();
+                    String allTasks = taskManager.listOfAllTasks();
                     System.out.println(allTasks);
                     break;
 
                 case "3":
                     //Удалеие всех заадач
-                    TaskManager.deleteAllTasks();
+                    taskManager.deleteAllTasks();
                     break;
 
                 case "4":
@@ -59,7 +60,7 @@ public class Main {
                     System.out.println("Введите ID");
                     int ID = scanner.nextInt();
                     scanner.nextLine();
-                    String taskInfo = TaskManager.getTaskInfo(ID);
+                    String taskInfo = taskManager.getTaskInfo(ID);
                     System.out.println(taskInfo);
                     break;
 
@@ -70,7 +71,7 @@ public class Main {
                     scanner.nextLine();
                     System.out.println("Введите новое содержание");
                     String updatedDescription = scanner.nextLine();
-                    TaskManager.updateTaskDescription(updateTaskID, updatedDescription);
+                    taskManager.updateTaskDescription(updateTaskID, updatedDescription);
                     break;
 
                 case "6":
@@ -78,7 +79,7 @@ public class Main {
                     System.out.println("Введите ID");
                     int deleteTaskID = scanner.nextInt();
                     scanner.nextLine();
-                    TaskManager.deleteByID(deleteTaskID);
+                    taskManager.deleteByID(deleteTaskID);
                     break;
 
                 case "7":
@@ -91,7 +92,7 @@ public class Main {
                     System.out.println("(Измениеие статуса подзадачи, может повлеч измение статуса его эпика)");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
-                    TaskManager.changeTaskStatus(changeTaskStatusID,choice);
+                    taskManager.changeTaskStatus(changeTaskStatusID,choice);
                     break;
 
                 case "0":
