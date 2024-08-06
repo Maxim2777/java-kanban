@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Epic extends Task {
+
     private final ArrayList<Integer> subtasksID = new ArrayList<>(); //Массив с ID подзадач
 
     public ArrayList<Integer> getSubtasksID() {
@@ -16,12 +17,16 @@ public class Epic extends Task {
         subtasksID.remove(Integer.valueOf(deleteTaskID));
     }
 
+    public void deleteAllSubtasksID() {
+        subtasksID.clear();
+    }
+
     public void subtasksAdd(int taskID) {
         subtasksID.add(taskID);
     }
 
-    public Epic(String name, String description, int ID) {
-        super(name, description, ID);
+    public Epic(String epicName, String epicDescription) {
+        super(epicName, epicDescription);
     }
 
     //Измение стауса эпика вслед за подзадачами

@@ -16,6 +16,25 @@ public class TaskManager {
         taskID = 0;
     }
 
+    //Метод для удаления обычных заадач
+    public void deleteTasks() {
+        tasks.clear();
+    }
+
+    //Метод для удаления эпик заадач
+    public void deleteEpics() {
+        epicTasks.clear();
+        subtasks.clear(); //Вслед за эпиками удаляются их подзадачи
+    }
+
+    //Метод для удаления подзадач
+    public void deleteSubtasks() {
+        subtasks.clear();
+        for (Epic epic : epicTasks.values()) { //Также удаляем все ID подзадач из эпиков
+            epic.deleteAllSubtasksID();
+        }
+    }
+
     //Получение задачи по id
     //Метод проверяет, к какому типу задачи принадлежит данный ID и выводит информацию, с учетом этого
     public String getTaskInfo(int ID) {
@@ -41,24 +60,63 @@ public class TaskManager {
         return taskInfo;
     }
 
-    //Обновить содержимое задачи по ID
-    public void updateTaskDescription(int updateTaskID, String updatedDescription) {
+       //Обновление содержимого обычной задачи
+    public void updateTask(Task updatedTask) {
+        int idOfUpdatedTask = updatedTask.getID();
+        if (tasks.containsKey(idOfUpdatedTask)) {
+            Task oldTask = tasks.get(idOfUpdatedTask);
+            oldTask.setName(updatedTask.getName());
+            oldTask.setDescription(updatedTask.getDescription());
 
-        if (tasks.containsKey(updateTaskID)) {
-            Task updatedTask = tasks.get(updateTaskID);
-            updatedTask.setDescription(updatedDescription);
-            tasks.put(updateTaskID, updatedTask);
+            TaskStatus newTaskStatus = updatedTask.getTaskStatus();
+            if (!(oldTask.getTaskStatus().equals(newTaskStatus))) {
+                //Если обновленный статус не равен "новому", то он меняется иначе остается как прежде.
+                if (!(newTaskStatus.equals(TaskStatus.NEW))) {
+                    oldTask.setTaskStatus(newTaskStatus);
+                } else {
+                    System.out.println("Нельзя поменять статус на новый (NEW) т.к задача в работе или готова.");
+                    System.out.println("Содержимое обновлено, но статус оставлен без изменений");
+                }
+            }
+        } else {
+            System.out.println("Такой ID не найден");
+        }
+    }
 
-        } else if (epicTasks.containsKey(updateTaskID)) {
-            Epic updatedEpicTask = epicTasks.get(updateTaskID);
-            updatedEpicTask.setDescription(updatedDescription);
-            epicTasks.put(updateTaskID, updatedEpicTask);
+    //Обновление содержимого эпик задачи
+    public void updateEpic(Epic updatedEpic) {
+        int idOfUpdatedEpic = updatedEpic.getID();
+        if (epicTasks.containsKey(idOfUpdatedEpic)) {
+            Epic oldEpic = epicTasks.get(idOfUpdatedEpic);
+            oldEpic.setName(updatedEpic.getName());
+            oldEpic.setDescription(updatedEpic.getDescription()); //У эпиков статус меняется только вслед за подзадачами
+        } else {
+            System.out.println("Такой ID не найден");
+        }
+    }
 
-        } else if (subtasks.containsKey(updateTaskID)) {
-            Subtask updatedSubtask = subtasks.get(updateTaskID);
-            updatedSubtask.setDescription(updatedDescription);
-            subtasks.put(updateTaskID, updatedSubtask);
+    //Обновление содержимого подзадачи
+    public void updateSubtask (Subtask updatedSubtask) {
+        int idOfUpdatedSubtask = updatedSubtask.getID();
+        if (subtasks.containsKey(idOfUpdatedSubtask)) {
+            Subtask oldSubtask = subtasks.get(idOfUpdatedSubtask);
+            oldSubtask.setName(updatedSubtask.getName());
+            oldSubtask.setDescription(updatedSubtask.getDescription());
 
+            Epic epicOfThisSubtask = epicTasks.get(oldSubtask.getEpicID());
+            TaskStatus newSubtaskStatus = updatedSubtask.getTaskStatus();
+            if (!(oldSubtask.getTaskStatus().equals(newSubtaskStatus))) {
+                if (newSubtaskStatus.equals(TaskStatus.IN_PROGRESS)) {
+                    oldSubtask.setTaskStatus(TaskStatus.IN_PROGRESS);
+                    epicOfThisSubtask.setTaskStatus(TaskStatus.IN_PROGRESS); //Эсли подзадача в процеесе, то её эпик тоже
+                } else if (newSubtaskStatus.equals(TaskStatus.DONE)) {
+                    oldSubtask.setTaskStatus(TaskStatus.DONE); //Если подзадача готова, то эпик нужно проверить на готовность
+                    epicOfThisSubtask.changeEpicStatusFromSubtask(subtasks); //(Все ли подзадачи готовы)
+                } else {
+                    System.out.println("Нельзя поменять статус на новый (NEW) т.к подзадача в работе или готова.");
+                    System.out.println("Содержимое обновлено, но статус оставлен без изменений");
+                }
+            }
         } else {
             System.out.println("Такой ID не найден");
         }
@@ -86,35 +144,6 @@ public class TaskManager {
             epicTask.deleteSubtaskID(deleteTaskID);                   // выполнены ли другие подзадачи, если - да, то
             epicTask.changeEpicStatusFromSubtaskAfterDelete(subtasks); // меняет стаутс на DONE
             subtasks.remove(deleteTaskID);
-        } else {
-            System.out.println("Такой ID не найден");
-        }
-    }
-
-    //Измение статуса задачи
-    public void changeTaskStatus(int changeTaskStatusID, int choice) {
-
-        if (tasks.containsKey(changeTaskStatusID)) {
-            Task newStatusTask = tasks.get(changeTaskStatusID);
-            newStatusTask.changeTaskStatus(choice);
-
-        } else if (epicTasks.containsKey(changeTaskStatusID)) {
-            Epic newStatusEpic = epicTasks.get(changeTaskStatusID);
-            newStatusEpic.changeTaskStatus(choice);
-            for (int subtaskID : newStatusEpic.getSubtasksID()) { // При изменинии статуса эпика напрямую, его подзадачи
-                Subtask subtask = subtasks.get(subtaskID);        // меняют статусвместе с ним
-                subtask.changeStatusFromEpic(choice);
-            }
-        } else if (subtasks.containsKey(changeTaskStatusID)) {
-            Subtask newStatusSubtask = subtasks.get(changeTaskStatusID);
-            newStatusSubtask.changeTaskStatus(choice);
-            Epic newStatusEpic = epicTasks.get(newStatusSubtask.getEpicID());
-            if (choice == 1 && newStatusEpic.getTaskStatus() == TaskStatus.NEW) { // Если эпик новый и подзадача меняет
-                newStatusEpic.changeTaskStatus(choice);                           // статус, он переходит в статус IN_PROGRESS
-            } else if (choice == 2) {                                             // Если все подзадачи DONE, эпик тоже
-                newStatusEpic.changeEpicStatusFromSubtask(subtasks);              // получает статус DONE
-            }
-
         } else {
             System.out.println("Такой ID не найден");
         }
@@ -149,41 +178,96 @@ public class TaskManager {
         return allTasks;
     }
 
+    //Получение задач
+    public String listOfTasks() {
+        String tasksList = "Список задач:";
+        for (Map.Entry<Integer, Task> hashMap : tasks.entrySet()) {
+            Integer ID = hashMap.getKey();
+            Task task = hashMap.getValue();
+            tasksList += "\nЗадача " + task.getName() + ", с ID " + ID + ", в статусе "
+                    + task.getTaskStatus().name();
+        }
+
+        return tasksList;
+    }
+
+    //Получение эпик задач
+    public String listOfEpics() {
+        String epicsList = "Список эпик задач:";
+        for (Map.Entry<Integer, Epic> hashMap : epicTasks.entrySet()) {
+            Integer ID = hashMap.getKey();
+            Epic epic = hashMap.getValue();
+            epicsList += "\nЭпик задача " + epic.getName() + ", с ID " + ID + ", в статусе "
+                    + epic.getTaskStatus().name() + ", с подзадачами " + epic.getSubtasksID();
+        }
+
+        return epicsList;
+    }
+    
+    //Получение подзадач
+    public String listOfSubtasks() {
+        String subtasksList = "Список подзадач:";
+        for (Map.Entry<Integer, Subtask> hashMap : subtasks.entrySet()) {
+            Integer ID = hashMap.getKey();
+            Subtask subtask = hashMap.getValue();
+            subtasksList += "\nПодзадача " + subtask.getName() + ", с ID " + ID + ", в статусе "
+                    + subtask.getTaskStatus().name() + ", относится к эпику с ID " + subtask.getEpicID();
+        }
+
+        return subtasksList;
+    }
+    
+    
+
     //Добавить обычную задачу
-    public void addTask(String name, String description) {
-        Task addTask = new Task(name, description, taskID);
-        tasks.put(taskID, addTask);
+    public void addTask(Task task) {
+        task.setID(taskID);
+        tasks.put(taskID, task);
         System.out.println("Добавлена задача с ID " + taskID);
         taskID += 1;
     }
 
     //Добавить эпик задачу
-    public void addEpicTask(String epicName, String epicDescription) {
-        Epic addEpic = new Epic(epicName, epicDescription, taskID);
-        epicTasks.put(taskID, addEpic);
+    public void addEpicTask(Epic epic) {
+        epic.setID(taskID);
+        epicTasks.put(taskID, epic);
         System.out.println("Добавлена эпик задача с ID " + taskID);
         taskID += 1;
     }
 
     //Добавить подзадачу
-    public void addSubtask(int epicID, String subtaskName,String subtaskDescription) {
-        if (epicTasks.containsKey(epicID)) {
+    public void addSubtask(Subtask subtask) {
+        if (epicTasks.containsKey(subtask.getEpicID())) {
+            subtask.setID(taskID);
+            subtasks.put(taskID, subtask);
 
-            Subtask addSubtask = new Subtask(subtaskName, subtaskDescription, taskID);
-            addSubtask.setEpicID(epicID);
-
-            subtasks.put(taskID, addSubtask);
-
-            Epic epic = epicTasks.get(epicID);
+            Epic epic = epicTasks.get(subtask.getEpicID());
             epic.subtasksAdd(taskID);
             epic.changeEpicStatusFromNewSubtask(); //Добавление в эпик подзадачи и изменение статуса
 
             System.out.println("Добавлена подзадача с ID " + taskID);
             taskID += 1;
         } else {
-            System.out.println("Нет Эпик задачи с ID " + epicID);
+            System.out.println("Нет Эпик задачи с ID " + subtask.getEpicID());
         }
     }
 
+    public String createSubtaskListOfOneEpic (int epicIDForFullInfo) {
+        if (epicTasks.containsKey(epicIDForFullInfo)) {
+            Epic epic = epicTasks.get(epicIDForFullInfo);
+            String subtasksListOfOneEpic = "Название эпик задачи: " + epic.getName() + "\nОписание эпик задачи: " + epic.getDescription()
+                    + "\nID подзадач которые в него входят: " + epic.getSubtasksID();
+            int i = 1;
+            for (int subtaskID : epic.getSubtasksID()) {
+                Subtask subtask = subtasks.get(subtaskID);
+                subtasksListOfOneEpic += "\nПодзадача №" + i + "\nНазвание: " + subtask.getName() + "\nID: " + subtaskID + "\nСтатус: "
+                        + subtask.getTaskStatus().name();
+                i++;
+            }
+            return subtasksListOfOneEpic;
+        } else {
+            return "Такой ID не найден";
+        }
+    }
 
 }
