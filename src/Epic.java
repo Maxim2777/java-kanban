@@ -50,18 +50,35 @@ public class Epic extends Task {
     //Измение стауса эпика после удаления подзадачами
     public void changeEpicStatusFromSubtaskAfterDelete(HashMap<Integer, Subtask> subtasks) {
         if (!subtasksID.isEmpty()) {
-            int epicNotDoneYet = 0;
+            boolean epicIsDone = true;
             for (int subtaskID : subtasksID) {
                 Subtask subtask = subtasks.get(subtaskID);
                 if (subtask.getTaskStatus() == TaskStatus.NEW
                         || subtask.getTaskStatus() == TaskStatus.IN_PROGRESS) {
-                    epicNotDoneYet = 1;
+                    epicIsDone = false;
                     break;
                 }
             }
-            if (epicNotDoneYet == 0) {
+            if (epicIsDone) {
                 taskStatus = TaskStatus.DONE;
             }
+
+            if (!epicIsDone) {
+                boolean epicIsNew = true;
+                for (int subtaskID : subtasksID) {
+                    Subtask subtask = subtasks.get(subtaskID);
+                    if (subtask.getTaskStatus() == TaskStatus.DONE
+                            || subtask.getTaskStatus() == TaskStatus.IN_PROGRESS) {
+                        epicIsNew = false;
+                        break;
+                    }
+                }
+                if (epicIsNew) {
+                    taskStatus = TaskStatus.NEW;
+                }
+            }
+        } else {
+            taskStatus = TaskStatus.NEW;
         }
     }
 
