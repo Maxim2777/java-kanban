@@ -40,5 +40,13 @@ public class Task {
     public int getID() {
         return ID;
     }
-
+    @Override
+    public String toString() {
+        return "\nЗадача c ID " + ID +
+                "\nНазвание: " + name +
+                "\nОписание: " + description +
+                "\nСтатус: " + taskStatus;
+    }
 }
+
+

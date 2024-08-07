@@ -13,4 +13,13 @@ public class Subtask extends Task {
         super(subtaskName, subtaskDescription);
     }
 
+    @Override
+    public String toString() {
+        return "\nПодзадача c ID " + ID +
+                "\nНазвание: " + name +
+                "\nОписание: " + description +
+                "\nСтатус: " + taskStatus +
+                "\nID эпика, к которому относится - " + epicID;
+    }
+
 }

@@ -48,28 +48,19 @@ public class Main {
                     taskManager.addSubtask(subtask);
                     break;
 
-                case "2":
-                    //Получение списка всех задач
-                    String allTasks = taskManager.listOfAllTasks();
-                    System.out.println(allTasks);
-                    break;
-
                 case "2.1":
                     //Получение списка всех обычных задач
-                    String tasksList = taskManager.listOfTasks();
-                    System.out.println(tasksList);
+                    System.out.println(taskManager.listOfTasks());
                     break;
 
                 case "2.2":
                     //Получение списка всех эпик задач
-                    String epicsList = taskManager.listOfEpics();
-                    System.out.println(epicsList);
+                    System.out.println(taskManager.listOfEpics());
                     break;
 
                 case "2.3":
                     //Получение списка всех подзадач
-                    String subtasksList = taskManager.listOfSubtasks();
-                    System.out.println(subtasksList);
+                    System.out.println(taskManager.listOfSubtasks());
                     break;
 
                 case "3":
@@ -203,8 +194,7 @@ public class Main {
                     System.out.println("Введите ID");
                     int epicIDForFullInfo = scanner.nextInt();
                     scanner.nextLine();
-                    String subtasksListOfOneEpic = taskManager.createSubtaskListOfOneEpic(epicIDForFullInfo);
-                    System.out.println(subtasksListOfOneEpic);
+                    System.out.println(taskManager.createSubtaskListOfOneEpic(epicIDForFullInfo));
                     break;
 
                 case "0":
@@ -219,7 +209,7 @@ public class Main {
     //Меню
     private static void printMenu() {
         System.out.println("1.1 - Добавление обычной задачи, 1.2 - Добавление эпик задачи, 1.3 - Добавление подзадачи");
-        System.out.println("2 - Список всех задач, 2.1 - Список простых задач, 2.2 - Список эпик задач," +
+        System.out.println("2.1 - Список простых задач, 2.2 - Список эпик задач," +
                 " 2.3 - Список подзадач");
         System.out.println("3 - Удаляет все задачи, 3.1 - Удаление простых задач, 3.2 - Удаление эпик задач, " +
                 "3.3 - Удаление подзадач");

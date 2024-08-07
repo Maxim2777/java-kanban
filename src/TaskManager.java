@@ -1,5 +1,5 @@
 import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class TaskManager {
 
@@ -32,6 +32,7 @@ public class TaskManager {
         subtasks.clear();
         for (Epic epic : epicTasks.values()) { //Также удаляем все ID подзадач из эпиков
             epic.deleteAllSubtasksID();
+            epic.setTaskStatus(TaskStatus.NEW);
         }
     }
 
@@ -149,72 +150,19 @@ public class TaskManager {
         }
     }
 
-    //Получение списка всех задач
-    public String listOfAllTasks() {
-        String allTasks = "Список задач:";
-        for (Map.Entry<Integer, Task> hashMap : tasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Task task = hashMap.getValue();
-            allTasks += "\nЗадача " + task.getName() + ", с ID " + ID + ", в статусе "
-                    + task.getTaskStatus().name();
-        }
-
-        allTasks += "\nСписок эпик задач:";
-        for (Map.Entry<Integer, Epic> hashMap : epicTasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Epic epic = hashMap.getValue();
-            allTasks += "\nЭпик задача " + epic.getName() + ", с ID " + ID + ", в статусе "
-                    + epic.getTaskStatus().name() + ", с подзадачами " + epic.getSubtasksID();
-        }
-
-        allTasks += "\nСписок подзадач:";
-        for (Map.Entry<Integer, Subtask> hashMap : subtasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Subtask subtask = hashMap.getValue();
-            allTasks += "\nПодзадача " + subtask.getName() + ", с ID " + ID + ", в статусе "
-                    + subtask.getTaskStatus().name() + ", относится к эпику с ID " + subtask.getEpicID();
-        }
-
-        return allTasks;
+    //Получение списка простых задач
+    public ArrayList<Task> listOfTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    //Получение задач
-    public String listOfTasks() {
-        String tasksList = "Список задач:";
-        for (Map.Entry<Integer, Task> hashMap : tasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Task task = hashMap.getValue();
-            tasksList += "\nЗадача " + task.getName() + ", с ID " + ID + ", в статусе "
-                    + task.getTaskStatus().name();
-        }
-
-        return tasksList;
-    }
-
-    //Получение эпик задач
-    public String listOfEpics() {
-        String epicsList = "Список эпик задач:";
-        for (Map.Entry<Integer, Epic> hashMap : epicTasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Epic epic = hashMap.getValue();
-            epicsList += "\nЭпик задача " + epic.getName() + ", с ID " + ID + ", в статусе "
-                    + epic.getTaskStatus().name() + ", с подзадачами " + epic.getSubtasksID();
-        }
-
-        return epicsList;
+    //Получение списка эпик задач
+    public ArrayList<Epic> listOfEpics() {
+        return new ArrayList<>(epicTasks.values());
     }
     
-    //Получение подзадач
-    public String listOfSubtasks() {
-        String subtasksList = "Список подзадач:";
-        for (Map.Entry<Integer, Subtask> hashMap : subtasks.entrySet()) {
-            Integer ID = hashMap.getKey();
-            Subtask subtask = hashMap.getValue();
-            subtasksList += "\nПодзадача " + subtask.getName() + ", с ID " + ID + ", в статусе "
-                    + subtask.getTaskStatus().name() + ", относится к эпику с ID " + subtask.getEpicID();
-        }
-
-        return subtasksList;
+    //Получение списка подзадач
+    public ArrayList<Subtask> listOfSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
     
     
@@ -252,21 +200,18 @@ public class TaskManager {
         }
     }
 
-    public String createSubtaskListOfOneEpic (int epicIDForFullInfo) {
+    public ArrayList<Subtask> createSubtaskListOfOneEpic (int epicIDForFullInfo) {
         if (epicTasks.containsKey(epicIDForFullInfo)) {
             Epic epic = epicTasks.get(epicIDForFullInfo);
-            String subtasksListOfOneEpic = "Название эпик задачи: " + epic.getName() + "\nОписание эпик задачи: " + epic.getDescription()
-                    + "\nID подзадач которые в него входят: " + epic.getSubtasksID();
-            int i = 1;
+            ArrayList<Subtask> subtaskList = new ArrayList<>();
             for (int subtaskID : epic.getSubtasksID()) {
                 Subtask subtask = subtasks.get(subtaskID);
-                subtasksListOfOneEpic += "\nПодзадача №" + i + "\nНазвание: " + subtask.getName() + "\nID: " + subtaskID + "\nСтатус: "
-                        + subtask.getTaskStatus().name();
-                i++;
+                subtaskList.add(subtask);
             }
-            return subtasksListOfOneEpic;
+            return subtaskList;
         } else {
-            return "Такой ID не найден";
+            System.out.println("Нет Эпик задачи с ID " + epicIDForFullInfo);
+            return null;
         }
     }
 

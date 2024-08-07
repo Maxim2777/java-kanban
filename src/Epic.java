@@ -71,4 +71,13 @@ public class Epic extends Task {
             taskStatus = TaskStatus.IN_PROGRESS;
         }
     }
+
+    @Override
+    public String toString() {
+        return "\nЭпик c ID " + ID +
+                "\nНазвание: " + name +
+                "\nОписание: " + description +
+                "\nСтатус: " + taskStatus +
+                "\nID подзадач, которые относятся к данному эпику: " + subtasksID;
+    }
 }
