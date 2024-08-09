@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -88,8 +88,7 @@ public class Main {
                     System.out.println("Введите ID");
                     int ID = scanner.nextInt();
                     scanner.nextLine();
-                    String taskInfo = taskManager.getTaskInfo(ID);
-                    System.out.println(taskInfo);
+                    System.out.println(taskManager.getTaskInfo(ID));
                     break;
 
                 case "5.1":
