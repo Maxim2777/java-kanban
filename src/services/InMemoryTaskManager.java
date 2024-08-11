@@ -1,13 +1,18 @@
+package services;
+
+import models.*;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 
 public class InMemoryTaskManager implements TaskManager {
 
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
+
     private int taskID = 0;
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Epic> epicTasks = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    private final ArrayList<Task> history = new ArrayList<>();
 
     //Метод для удаления всех заадач
     @Override
@@ -57,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Такой ID не найден");
             return null;
         }
-        saveInHistory(taskInfo);
+        historyManager.add(taskInfo);
         return taskInfo;
     }
 
@@ -226,15 +231,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        return history;
-    }
-
-    private void saveInHistory(Task task) {
-        if (history.size() == 10) {
-            history.removeFirst();
-        }
-        history.add(task);
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 
 }

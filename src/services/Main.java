@@ -1,3 +1,7 @@
+package services;
+
+import models.*;
+
 import java.util.Scanner;
 
 public class Main {
@@ -5,7 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = taskManager.getHistoryManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -194,6 +199,10 @@ public class Main {
                     int epicIDForFullInfo = scanner.nextInt();
                     scanner.nextLine();
                     System.out.println(taskManager.createSubtaskListOfOneEpic(epicIDForFullInfo));
+                    break;
+
+                case "8":
+                    System.out.println(historyManager.getHistory());
                     break;
 
                 case "0":

@@ -1,3 +1,7 @@
+package services;
+
+import models.*;
+
 import java.util.ArrayList;
 
 public interface TaskManager {
@@ -48,5 +52,5 @@ public interface TaskManager {
 
     ArrayList<Subtask> createSubtaskListOfOneEpic(int epicIDForFullInfo);
 
-    ArrayList<Task> getHistory();
+    public HistoryManager getHistoryManager();
 }

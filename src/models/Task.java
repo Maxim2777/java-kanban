@@ -1,3 +1,5 @@
+package models;
+
 public class Task {
     protected int ID;
     protected String name;
