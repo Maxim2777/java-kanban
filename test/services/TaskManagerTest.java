@@ -1,5 +1,6 @@
+package services;
+
 import models.*;
-import services.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +72,7 @@ class TaskManagerTest {
     }
 
     @Test
-    void subtaskShouldNotBeAddedAsEpicToSubtask() {
+    void subtaskOrTaskShouldNotBeAddedAsEpicToSubtask() {
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
         subtask.setEpicID(0);
         taskManager.addSubtask(subtask);
@@ -79,6 +80,17 @@ class TaskManagerTest {
         final ArrayList<Subtask> subtasks = taskManager.listOfSubtasks();
 
         assertTrue(subtasks.isEmpty(), "Подзадача добавилась со своим же ID в качсетве эпика.");
+
+        final Task task = new Task("Test taskName", "Test taskDescription");
+        taskManager.addTask(task);
+        final Subtask subtask2 = new Subtask("Test subtaskName2", "Test subtaskName2");
+        subtask2.setEpicID(0);
+        taskManager.addSubtask(subtask2);
+
+        final ArrayList<Subtask> subtasks2 = taskManager.listOfSubtasks();
+
+        assertTrue(subtasks2.isEmpty(), "Подзадача добавилась с ID обычной задачи в качестве эпика.");
+
     }
     @Test
     void managerMustAddTasksOfDifferentTypesAndSearchForThemByID() {
@@ -146,5 +158,15 @@ class TaskManagerTest {
         assertEquals(name, savedSubtask.getName(), "Имена подзадач не совпадают.");
         assertEquals(description, savedSubtask.getDescription(), "Описание подзадач не совпадает.");
         assertEquals(0, savedSubtask.getEpicID(), "ID привязанного эпика не совпадает.");
+    }
+
+    @Test
+    void taskManagerShouldGenerateNewIDWhenAddingNewTask() {
+        final Task task = new Task("Test taskName", "Test taskDescription");
+        task.setID(7);
+        taskManager.addTask(task);
+
+        assertNotNull(taskManager.getTaskInfo(0), "Для задачи не сгенерировался новый ID");
+
     }
 }
