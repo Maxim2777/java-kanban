@@ -59,7 +59,7 @@ class EpicTest {
     }
 
     @Test
-    void epicShouldHaveNewIfAllSubtasksNewOrHasNoSubtasksAfterDeleteSubtask() {
+    void epicShouldBeNewIfAllSubtasksNewOrHasNoSubtasksAfterDeleteSubtask() {
         Subtask subtaskUpdate = new Subtask("Test updatedName", "Test updatedDescription");
         subtaskUpdate.setTaskStatus(TaskStatus.IN_PROGRESS);
         subtaskUpdate.setID(1);
@@ -70,7 +70,7 @@ class EpicTest {
 
         taskManager.deleteByID(1);
 
-        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW");
+        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда все подзадачи NEW");
 
         subtaskUpdate.setID(2);
         taskManager.updateSubtask(subtaskUpdate);
@@ -80,7 +80,7 @@ class EpicTest {
         taskManager.deleteByID(2);
 
         assertTrue(epic.emptySubtasksID(), "Список привязанных подзадач не пуст, после удаления всех подзадач");
-        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW");
+        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда нет подзадач");
 
     }
 

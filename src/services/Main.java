@@ -226,6 +226,7 @@ public class Main {
                 "5.3 - Изменить содержимое подзадачи");
         System.out.println("6 - Удалить задачу по конкретному ID");
         System.out.println("7 - Получить полный список подзадач по ID эпика");
+        System.out.println("8 - Показать историю просмотров задач");
         System.out.println("0 - Выход");
     }
 }

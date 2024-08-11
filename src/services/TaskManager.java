@@ -5,6 +5,9 @@ import models.*;
 import java.util.ArrayList;
 
 public interface TaskManager {
+    //Удалить задачу по ID
+    void deleteByID(int deleteTaskID);
+
     //Метод для удаления всех заадач
     void deleteAllTasks();
 
@@ -29,9 +32,6 @@ public interface TaskManager {
     //Обновление содержимого подзадачи
     void updateSubtask(Subtask updatedSubtask);
 
-    //Удалить задачу по ID
-    void deleteByID(int deleteTaskID);
-
     //Получение списка простых задач
     ArrayList<Task> listOfTasks();
 
@@ -50,7 +50,9 @@ public interface TaskManager {
     //Добавить подзадачу
     void addSubtask(Subtask subtask);
 
+    //Создание списка подзадач одного эпика
     ArrayList<Subtask> createSubtaskListOfOneEpic(int epicIDForFullInfo);
 
-    public HistoryManager getHistoryManager();
+    //Для передачи корректной истории
+    HistoryManager getHistoryManager();
 }
