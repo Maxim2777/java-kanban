@@ -201,6 +201,7 @@ public class Main {
                     System.out.println(taskManager.createSubtaskListOfOneEpic(epicIDForFullInfo));
                     break;
 
+                //Просмотреть задачи, вызванные через пункт 4
                 case "8":
                     System.out.println(historyManager.getHistory());
                     break;
@@ -226,7 +227,8 @@ public class Main {
                 "5.3 - Изменить содержимое подзадачи");
         System.out.println("6 - Удалить задачу по конкретному ID");
         System.out.println("7 - Получить полный список подзадач по ID эпика");
-        System.out.println("8 - Показать историю просмотров задач");
+        System.out.println("8 - Показать историю просмотров задач " +
+                "(показывает те задачи, которые были вызваны командой 4)");
         System.out.println("0 - Выход");
     }
 }

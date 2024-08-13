@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TaskManagerTest {
@@ -167,6 +168,7 @@ class TaskManagerTest {
         taskManager.addTask(task);
 
         assertNotNull(taskManager.getTaskInfo(0), "Для задачи не сгенерировался новый ID");
+        assertNull(taskManager.getTaskInfo(7), "Задаче был присвоен заданный ID");
 
     }
 }
