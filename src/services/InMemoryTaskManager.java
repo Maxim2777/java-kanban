@@ -217,6 +217,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    //Создание списка подзадач одного эпика
     @Override
     public ArrayList<Subtask> createSubtaskListOfOneEpic(int epicIDForFullInfo) {
         if (epicTasks.containsKey(epicIDForFullInfo)) {
@@ -233,6 +234,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    //Для передачи корректной истории
     @Override
     public HistoryManager getHistoryManager() {
         return historyManager;
