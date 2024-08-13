@@ -1,6 +1,6 @@
 package services;
 
-import models.*;
+import models.Task;
 
 import java.util.ArrayList;
 
