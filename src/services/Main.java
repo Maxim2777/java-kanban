@@ -13,7 +13,6 @@ public class Main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         TaskManager taskManager = Managers.getDefault();
-        HistoryManager historyManager = taskManager.getHistoryManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -206,7 +205,7 @@ public class Main {
 
                 //Просмотреть задачи, вызванные через пункт 4
                 case "8":
-                    System.out.println(historyManager.getHistory());
+                    System.out.println(taskManager.getHistory());
                     break;
 
                 case "0":

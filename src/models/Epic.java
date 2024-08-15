@@ -1,7 +1,7 @@
 package models;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Epic extends Task {
 
@@ -32,7 +32,7 @@ public class Epic extends Task {
     }
 
     //Измение стауса эпика вслед за подзадачами
-    public void changeEpicStatusFromSubtask(HashMap<Integer, Subtask> subtasks) {
+    public void changeEpicStatusFromSubtask(Map<Integer, Subtask> subtasks) {
         int epicNotDoneYet = 0;
         for (int subtaskID : subtasksID) {
             Subtask subtask = subtasks.get(subtaskID);
@@ -50,7 +50,7 @@ public class Epic extends Task {
     }
 
     //Измение стауса эпика после удаления подзадачами
-    public void changeEpicStatusFromSubtaskAfterDelete(HashMap<Integer, Subtask> subtasks) {
+    public void changeEpicStatusFromSubtaskAfterDelete(Map<Integer, Subtask> subtasks) {
         if (!subtasksID.isEmpty()) {
             boolean epicIsDone = true;
             for (int subtaskID : subtasksID) {

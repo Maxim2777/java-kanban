@@ -7,15 +7,16 @@ import models.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     private int taskID = 0;
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epicTasks = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epicTasks = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
 
     //Метод для удаления всех заадач
     @Override
@@ -234,10 +235,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //Для передачи корректной истории
+    //Для передачи истории
     @Override
-    public HistoryManager getHistoryManager() {
-        return historyManager;
+    public ArrayList<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
 }

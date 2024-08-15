@@ -55,6 +55,6 @@ public interface TaskManager {
     //Создание списка подзадач одного эпика
     ArrayList<Subtask> createSubtaskListOfOneEpic(int epicIDForFullInfo);
 
-    //Для передачи корректной истории
-    HistoryManager getHistoryManager();
+    //Для передачи истории
+    ArrayList<Task> getHistory();
 }
