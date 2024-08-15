@@ -260,7 +260,7 @@ class TaskManagerTest {
         assertFalse(tasks.isEmpty(), "Задачи не добавлены.");
         assertFalse(subtasks.isEmpty(), "Подзадачи не добавлены.");
         assertFalse(epics.isEmpty(), "Эпики не добавлены.");
-        
+
         taskManager.deleteAllTasks();
 
         subtasks = taskManager.listOfSubtasks();
@@ -335,6 +335,30 @@ class TaskManagerTest {
         assertFalse(subtasksFromEpic.isEmpty(), "Подзадачи не возвращаются.");
         assertEquals(1, subtasksFromEpic.size(), "Неверное количество подзадач.");
         assertEquals(subtask, subtasksFromEpic.getFirst(), "Подзадачи не совпадают.");
+    }
+
+    @Test
+    void tasksReturnedByHistoryShouldBeEqualToThoseStoredInHistory() {
+        final Task task = new Task("Test taskName", "Test taskDescription");
+        taskManager.addTask(task);
+        final Epic epic = new Epic("Test epicName", "Test epicDescription");
+        taskManager.addEpicTask(epic);
+        final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
+        subtask.setEpicID(1);
+        taskManager.addSubtask(subtask);
+
+        taskManager.getTaskInfo(0);
+        taskManager.getTaskInfo(1);
+        taskManager.getTaskInfo(2);
+
+
+        final ArrayList<Task> history = taskManager.getHistory();
+
+        assertFalse(history.isEmpty(), "Задачи не сохраняются в истории.");
+        assertEquals(3, history.size(), "Неверное количество задач в истории.");
+        assertEquals(task, history.get(0), "Задачи не совпадают.");
+        assertEquals(epic, history.get(1), "Эпики не совпадают.");
+        assertEquals(subtask, history.get(2), "Подзадачи не совпадают.");
     }
 
 }
