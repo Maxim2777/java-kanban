@@ -83,5 +83,4 @@ class EpicTest {
         assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда нет подзадач");
 
     }
-
 }

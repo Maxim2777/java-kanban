@@ -330,11 +330,16 @@ class TaskManagerTest {
         subtask.setEpicID(0);
         taskManager.addSubtask(subtask);
 
-        final ArrayList<Subtask> subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(0);
+        ArrayList<Subtask> subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(0);
 
         assertFalse(subtasksFromEpic.isEmpty(), "Подзадачи не возвращаются.");
         assertEquals(1, subtasksFromEpic.size(), "Неверное количество подзадач.");
         assertEquals(subtask, subtasksFromEpic.getFirst(), "Подзадачи не совпадают.");
+
+        taskManager.deleteSubtasks();
+        subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(0);
+
+        assertEquals(0, subtasksFromEpic.size(), "Удаленная подзадача не открепилась от эпика");
     }
 
     @Test
