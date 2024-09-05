@@ -49,13 +49,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     //Добавить в конец
     private void linkLast(Task task) {
         if (tail == null) {
-            var node = new Node(task, null, null);
+            Node node = new Node(task, null, null);
             tail = node;
             head = node;
             int id = task.getID();
             history.put(id, node);
         } else {
-            var node = new Node(task, tail, null);
+            Node node = new Node(task, tail, null);
             tail.next = node;
             tail = node;
             int id = task.getID();
