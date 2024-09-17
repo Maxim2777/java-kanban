@@ -91,6 +91,19 @@ public class Epic extends Task {
         }
     }
 
+    //создание эпика из строки с параметрами
+    public static Epic fromString(String value) {
+        String[] taskParameters = value.split(",");
+        Epic epic = new Epic(taskParameters[2], taskParameters[4]);
+        epic.setID(Integer.parseInt(taskParameters[0]));
+        switch (taskParameters[2]) {
+            case "NEW" -> epic.setTaskStatus(TaskStatus.NEW);
+            case "IN_PROGRESS" -> epic.setTaskStatus(TaskStatus.IN_PROGRESS);
+            case "DONE" -> epic.setTaskStatus(TaskStatus.DONE);
+        }
+        return epic;
+    }
+
     @Override
     public String toString() {
         return "\nЭпик c ID " + ID +
