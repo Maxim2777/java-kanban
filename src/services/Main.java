@@ -5,6 +5,7 @@ import models.Subtask;
 import models.Task;
 import models.TaskStatus;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         TaskManager taskManager = Managers.getDefault();
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -71,22 +73,22 @@ public class Main {
                     break;
 
                 case "3":
-                    //Удалеие всех обычных заадач
+                    //Удалеие всех задач
                     taskManager.deleteAllTasks();
                     break;
 
                 case "3.1":
-                    //Удалеие заадач
+                    //Удалеие задач
                     taskManager.deleteTasks();
                     break;
 
                 case "3.2":
-                    //Удалеие эпик заадач
+                    //Удалеие эпик задач
                     taskManager.deleteEpics();
                     break;
 
                 case "3.3":
-                    //Удалеие подзаадач
+                    //Удалеие подзадач
                     taskManager.deleteSubtasks();
                     break;
 
@@ -208,6 +210,61 @@ public class Main {
                     System.out.println(taskManager.getHistory());
                     break;
 
+                case "9.1":
+                    System.out.println("Введите название Задачи");
+                    String name1 = scanner.nextLine();
+                    System.out.println("Введите описание Задачи");
+                    String description1 = scanner.nextLine();
+                    Task task1 = new Task(name1, description1);
+                    fileBackedTaskManager.addTask(task1);
+                    break;
+
+                case "9.2":
+                    //Добавить эпик задачу
+                    System.out.println("Введите название Эпик Задачи");
+                    String epicName1 = scanner.nextLine();
+                    System.out.println("Введите описание Эпик Задачи");
+                    String epicDescription1 = scanner.nextLine();
+                    Epic epic1 = new Epic(epicName1, epicDescription1);
+                    fileBackedTaskManager.addEpicTask(epic1);
+                    break;
+
+                case "9.3":
+                    //Добавить подзадачу
+                    System.out.println("Введите ID Эпик задачи к которой относится подзадача");
+                    int epicID1 = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Введите название Подзадачи");
+                    String subtaskName1 = scanner.nextLine();
+                    System.out.println("Введите описание Подзадачи");
+                    String subtaskDescription1 = scanner.nextLine();
+                    Subtask subtask1 = new Subtask(subtaskName1, subtaskDescription1);
+                    subtask1.setEpicID(epicID1);
+                    fileBackedTaskManager.addSubtask(subtask1);
+                    break;
+
+                    //Загрузка задач из сохранения
+                case "10":
+                    File file = new File("src/services/SavedTasks.CSV");
+                    fileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
+                    break;
+
+                case "11.1":
+                    //Получение списка всех обычных задач
+                    System.out.println(fileBackedTaskManager.listOfTasks());
+                    break;
+
+                case "11.2":
+                    //Получение списка всех эпик задач
+                    System.out.println(fileBackedTaskManager.listOfEpics());
+                    break;
+
+                case "11.3":
+                    //Получение списка всех подзадач
+                    System.out.println(fileBackedTaskManager.listOfSubtasks());
+                    break;
+
+
                 case "0":
                     return;
 
@@ -232,5 +289,10 @@ public class Main {
         System.out.println("8 - Показать историю просмотров задач " +
                 "(показывает те задачи, которые были вызваны командой 4)");
         System.out.println("0 - Выход");
+        System.out.println("\nДальнейшие команды нужны для тестирования сохранения задач:");
+        System.out.println("9.1 - Добавление обычной задачи, 9.2 - Добавление эпик задачи, 9.3 - Добавление подзадачи");
+        System.out.println("10 - Загрузка задач из сохранения");
+        System.out.println("11.1 - Список простых задач, 11.2 - Список эпик задач," +
+                " 11.3 - Список подзадач");
     }
 }
