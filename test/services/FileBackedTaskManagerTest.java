@@ -3,6 +3,7 @@ package services;
 import models.Epic;
 import models.Subtask;
 import models.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,11 @@ public class FileBackedTaskManagerTest {
     @BeforeEach
     public void beforeEach() {
         fileBackedTaskManager = Managers.getDefaultFileBackedTaskManager();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        fileBackedTaskManager.deleteAllTasks();
     }
 
     @Test
@@ -62,7 +68,5 @@ public class FileBackedTaskManagerTest {
         assertEquals(task.toString(), savedTask.toString(), "Задачи не совпадают, полсе загрузки");
         assertEquals(epic.toString(), savedEpic.toString(), "Эпики не совпадают, полсе загрузки");
         assertEquals(subtask.toString(), savedSubtask.toString(), "Подзадачи не совпадают, полсе загрузки");
-
-        fileBackedTaskManager.deleteAllTasks();
     }
 }
