@@ -62,5 +62,7 @@ public class FileBackedTaskManagerTest {
         assertEquals(task.toString(), savedTask.toString(), "Задачи не совпадают, полсе загрузки");
         assertEquals(epic.toString(), savedEpic.toString(), "Эпики не совпадают, полсе загрузки");
         assertEquals(subtask.toString(), savedSubtask.toString(), "Подзадачи не совпадают, полсе загрузки");
+
+        fileBackedTaskManager.deleteAllTasks();
     }
 }
