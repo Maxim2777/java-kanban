@@ -13,26 +13,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileBackedTaskManagerTest {
 
-    private FileBackedTaskManager fileBackedTaskManager;
+    private TaskManager fileBackedTaskManager;
 
     @BeforeEach
     public void beforeEach() {
-        fileBackedTaskManager = new FileBackedTaskManager();
+        fileBackedTaskManager = Managers.getDefaultFileBackedTaskManager();
     }
 
     @Test
     void TasksShouldBeEmptyBeforeAndAfterLoadingIfTasksWereNotCreated() {
-        fileBackedTaskManager.save();
-        assertTrue(fileBackedTaskManager.tasks.isEmpty(), "Задачи не пустые, полсе сохранения");
-        assertTrue(fileBackedTaskManager.epicTasks.isEmpty(), "Эпики не пустые, полсе сохранения");
-        assertTrue(fileBackedTaskManager.subtasks.isEmpty(), "Подзадачи не пустые, полсе сохранения");
+        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пустые, полсе сохранения");
+        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, полсе сохранения");
+        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, полсе сохранения");
 
         File file = new File("src/services/SavedTasks.CSV");
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
 
-        assertTrue(fileBackedTaskManager.tasks.isEmpty(), "Задачи не пусты, полсе загрузки");
-        assertTrue(fileBackedTaskManager.epicTasks.isEmpty(), "Эпики не пустые, полсе загрузки");
-        assertTrue(fileBackedTaskManager.subtasks.isEmpty(), "Подзадачи не пустые, полсе загрузки");
+        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пусты, полсе загрузки");
+        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, полсе загрузки");
+        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, полсе загрузки");
     }
 
     @Test

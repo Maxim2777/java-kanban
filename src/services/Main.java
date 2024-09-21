@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         TaskManager taskManager = Managers.getDefault();
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
+        TaskManager fileBackedTaskManager = Managers.getDefaultFileBackedTaskManager();
 
                 /*Меню добавлено с целью тестирования работоспособности методов.
                 По возможности, добавил комментарии*/
@@ -210,7 +210,12 @@ public class Main {
                     System.out.println(taskManager.getHistory());
                     break;
 
+
+                //Дальнейшие команды нужны для тестирования сохранения задач:
+
+
                 case "9.1":
+                    //Добавить задачу
                     System.out.println("Введите название Задачи");
                     String name1 = scanner.nextLine();
                     System.out.println("Введите описание Задачи");
