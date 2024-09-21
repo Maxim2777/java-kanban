@@ -13,9 +13,15 @@ import java.io.Writer;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
+    private final File file;
+
+    public FileBackedTaskManager(File file) {
+        this.file = file;
+    }
+
     //Загрузка сохраненых задач из файала
     public static FileBackedTaskManager loadFromFile(File file) {
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file.getPath()))) {
             fileReader.readLine();      //для пропуска первой строки, т.к. в ней оглавление
             String line;
@@ -51,8 +57,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     //Сохранение существующих задач в файл
-    public void save() {
-        try (Writer fileWriter = new FileWriter("src/services/SavedTasks.CSV")) {
+    private void save() {
+        try (Writer fileWriter = new FileWriter(file)) {
             fileWriter.write("id,type,name,status,description,epic");
 
             for (Task task : tasks.values()) {
