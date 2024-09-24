@@ -42,6 +42,20 @@ public class Task {
     public int getID() {
         return ID;
     }
+
+    //создание задачи из строки с параметрами
+    public static Task fromString(String value) {
+        String[] taskParameters = value.split(",");
+        Task task = new Task(taskParameters[2], taskParameters[4]);
+        task.setID(Integer.parseInt(taskParameters[0]));
+        switch (taskParameters[2]) {
+            case "NEW" -> task.setTaskStatus(TaskStatus.NEW);
+            case "IN_PROGRESS" -> task.setTaskStatus(TaskStatus.IN_PROGRESS);
+            case "DONE" -> task.setTaskStatus(TaskStatus.DONE);
+        }
+        return task;
+    }
+
     @Override
     public String toString() {
         return "\nЗадача c ID " + ID +
