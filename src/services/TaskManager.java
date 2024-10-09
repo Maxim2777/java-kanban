@@ -5,18 +5,19 @@ import models.Subtask;
 import models.Task;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public interface TaskManager {
     //Удалить задачу по ID
     void deleteByID(int deleteTaskID);
 
-    //Метод для удаления всех заадач
+    //Метод для удаления всех задач
     void deleteAllTasks();
 
-    //Метод для удаления обычных заадач
+    //Метод для удаления обычных задач
     void deleteTasks();
 
-    //Метод для удаления эпик заадач
+    //Метод для удаления эпик задач
     void deleteEpics();
 
     //Метод для удаления подзадач
@@ -57,4 +58,6 @@ public interface TaskManager {
 
     //Для передачи истории
     ArrayList<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 }

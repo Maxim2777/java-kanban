@@ -27,13 +27,13 @@ class HistoryManagerTest {
     void historyShouldNotBeEmptyAfterSavingTask() {
         final ArrayList<Task> history = historyManager.getHistory();
         assertNotNull(history, "История пустая.");
-        assertEquals(1, history.size(), "История не соответвует должному размеру.");
+        assertEquals(1, history.size(), "История не соответствует должному размеру.");
     }
 
     @Test
     void tasksShouldBeEqualsBeforeAndAfterAddingToHistory() {
         final ArrayList<Task> history = historyManager.getHistory();
-        assertEquals(task, history.getFirst(), "Задача, сохраненая в истории, не совпадает с иначальной.");
+        assertEquals(task, history.getFirst(), "Задача, сохраненная в истории, не совпадает с изначальной.");
     }
 
     @Test
@@ -42,12 +42,12 @@ class HistoryManagerTest {
         task2.setID(1);
         historyManager.add(task2);
         ArrayList<Task> history = historyManager.getHistory();
-        assertEquals(task2, history.get(1), "Вторая задача, сохраненая в истории, не совпадает с иначальной.");
+        assertEquals(task2, history.get(1), "Вторая задача, сохраненная в истории, не совпадает с изначальной.");
         historyManager.add(task);
         history = historyManager.getHistory();
         assertEquals(task, history.get(1), "Первая задача не переместилась в конец, после добавления");
         assertEquals(2, history.size(), "История изменила размер" +
-                " после добавления уже сущетвующей задачи");
+                " после добавления уже существующей задачи");
     }
 
     @Test
