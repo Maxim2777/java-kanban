@@ -7,6 +7,8 @@ import models.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -366,4 +368,73 @@ class TaskManagerTest {
         assertEquals(subtask, history.get(2), "Подзадачи не совпадают.");
     }
 
+    @Test
+    void endTimeOfTaskShouldBeCalculatedCorrectly() {
+        Duration duration = Duration.ofMinutes(10);
+        LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 1, 1);
+        final Task task = new Task("Test taskName", "Test taskDescription", duration, dateTime);
+
+        assertEquals(dateTime.plus(duration), task.getEndTime(), "Время окончания задачи рассчитанно не корректно");
+    }
+
+    @Test
+    void durationAndStartTimeShouldBeSavedInTheTaskCorrectly() {
+        Duration duration = Duration.ofMinutes(10);
+        LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 1, 1);
+        final Task task = new Task("Test taskName", "Test taskDescription", duration, dateTime);
+
+        assertEquals(duration, task.getDuration(), "Продолжительность задачи сохранилась не корректно");
+        assertEquals(dateTime, task.getStartTime(), "Время начала задачи сохранилось не корректно");
+    }
+
+    @Test
+    void tasksShouldBeSortedCorrectlyByDate() {
+        Duration duration = Duration.ofMinutes(10);
+        LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 1, 1);
+        final Task task = new Task("Test taskName", "Test taskDescription", duration, dateTime);
+        taskManager.addTask(task);
+        Duration duration2 = Duration.ofMinutes(10);
+        LocalDateTime dateTime2 = LocalDateTime.of(1999, 1, 1, 1, 1);
+        final Task task2 = new Task("Test taskName", "Test taskDescription", duration2, dateTime2);
+        taskManager.addTask(task2);
+
+        assertEquals(taskManager.getPrioritizedTasks().first(), task2,
+                "Задача с более ранним временем начал не стоит первой");
+        assertEquals(taskManager.getPrioritizedTasks().last(), task,
+                "Задача с более поздним временем начала не стоит последней");
+    }
+
+    @Test
+    void tasksWithoutTimeShouldNotBeAddedToPrioritizedTasks() {
+        final Task task = new Task("Test taskName", "Test taskDescription");
+        taskManager.addTask(task);
+
+        assertEquals(taskManager.getPrioritizedTasks().size(), 0,
+                "Задача без времени добавилась в PrioritizedTasks");
+    }
+
+    @Test
+    void taskThatOverlapsAnotherInTimeShouldNotBeAddedToPrioritizedTasks() {
+        Duration duration = Duration.ofMinutes(10);
+        LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 1, 1);
+        final Task task = new Task("Test taskName", "Test taskDescription", duration, dateTime);
+        taskManager.addTask(task);
+        Duration duration2 = Duration.ofMinutes(10);
+        LocalDateTime dateTime2 = LocalDateTime.of(2000, 1, 1, 1, 1);
+        final Task task2 = new Task("Test taskName", "Test taskDescription", duration2, dateTime2);
+        taskManager.addTask(task2);
+        Duration duration3 = Duration.ofMinutes(10);
+        LocalDateTime dateTime3 = LocalDateTime.of(2000, 1, 1, 1, 0);
+        final Task task3 = new Task("Test taskName", "Test taskDescription", duration3, dateTime3);
+        taskManager.addTask(task3);
+        Duration duration4 = Duration.ofMinutes(1000);
+        LocalDateTime dateTime4 = LocalDateTime.of(2000, 1, 1, 1, 0);
+        final Task task4 = new Task("Test taskName", "Test taskDescription", duration4, dateTime4);
+        taskManager.addTask(task4);
+
+        assertEquals(taskManager.getPrioritizedTasks().size(), 1,
+                "Задача пересекающая другую была добавлена в PrioritizedTasks");
+        assertEquals(taskManager.getPrioritizedTasks().first(), task,
+                "Задача пересекающая другую была добавлена в PrioritizedTasks и заменила её");
+    }
 }
