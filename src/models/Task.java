@@ -2,7 +2,6 @@ package models;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -12,8 +11,6 @@ public class Task {
     protected TaskStatus taskStatus = TaskStatus.NEW;
     protected Duration duration;
     protected LocalDateTime startTime;
-
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     public TaskStatus getTaskStatus() {
         return taskStatus;
@@ -125,8 +122,8 @@ public class Task {
                 "\nНазвание: " + name +
                 "\nОписание: " + description +
                 "\nСтатус: " + taskStatus +
-                (getStartTime() != null ? "\nНачало: " + startTime.format(formatter) : "") +
-                (getStartTime() != null ? "\nКонец: " + getEndTime().format(formatter) : "") +
+                (getStartTime() != null ? "\nНачало: " + startTime : "") +
+                (getStartTime() != null ? "\nКонец: " + getEndTime() : "") +
                 (getDuration() != null ? "\nДлительность: " + duration.toMinutes() + " минут" : "");
     }
 }
