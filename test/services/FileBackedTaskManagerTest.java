@@ -28,16 +28,16 @@ public class FileBackedTaskManagerTest {
 
     @Test
     void TasksShouldBeEmptyBeforeAndAfterLoadingIfTasksWereNotCreated() {
-        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пустые, полсе сохранения");
-        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, полсе сохранения");
-        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, полсе сохранения");
+        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пустые, после сохранения");
+        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, после сохранения");
+        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, после сохранения");
 
         File file = new File("src/services/SavedTasks.CSV");
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
 
-        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пусты, полсе загрузки");
-        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, полсе загрузки");
-        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, полсе загрузки");
+        assertTrue(fileBackedTaskManager.listOfTasks().isEmpty(), "Задачи не пусты, после загрузки");
+        assertTrue(fileBackedTaskManager.listOfEpics().isEmpty(), "Эпики не пустые, после загрузки");
+        assertTrue(fileBackedTaskManager.listOfSubtasks().isEmpty(), "Подзадачи не пустые, после загрузки");
     }
 
     @Test
@@ -47,12 +47,12 @@ public class FileBackedTaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         fileBackedTaskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskDescription");
-        subtask.setEpicID(1);
+        subtask.setEpicID(2);
         fileBackedTaskManager.addSubtask(subtask);
 
-        Task savedTask = fileBackedTaskManager.getTaskInfo(0);
-        Task savedEpic = fileBackedTaskManager.getTaskInfo(1);
-        Task savedSubtask = fileBackedTaskManager.getTaskInfo(2);
+        Task savedTask = fileBackedTaskManager.getTaskInfo(1);
+        Task savedEpic = fileBackedTaskManager.getTaskInfo(2);
+        Task savedSubtask = fileBackedTaskManager.getTaskInfo(3);
 
         assertEquals(task.toString(), savedTask.toString(), "Задачи не совпадают, после сохранения");
         assertEquals(epic.toString(), savedEpic.toString(), "Эпики не совпадают, после сохранения");
@@ -61,12 +61,12 @@ public class FileBackedTaskManagerTest {
         File file = new File("src/services/SavedTasks.CSV");
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
 
-        savedTask = fileBackedTaskManager.getTaskInfo(0);
-        savedEpic = fileBackedTaskManager.getTaskInfo(1);
-        savedSubtask = fileBackedTaskManager.getTaskInfo(2);
+        savedTask = fileBackedTaskManager.getTaskInfo(1);
+        savedEpic = fileBackedTaskManager.getTaskInfo(2);
+        savedSubtask = fileBackedTaskManager.getTaskInfo(3);
 
-        assertEquals(task.toString(), savedTask.toString(), "Задачи не совпадают, полсе загрузки");
-        assertEquals(epic.toString(), savedEpic.toString(), "Эпики не совпадают, полсе загрузки");
-        assertEquals(subtask.toString(), savedSubtask.toString(), "Подзадачи не совпадают, полсе загрузки");
+        assertEquals(task.toString(), savedTask.toString(), "Задачи не совпадают, после загрузки");
+        assertEquals(epic.toString(), savedEpic.toString(), "Эпики не совпадают, после загрузки");
+        assertEquals(subtask.toString(), savedSubtask.toString(), "Подзадачи не совпадают, после загрузки");
     }
 }

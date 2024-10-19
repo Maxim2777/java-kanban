@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 public interface TaskManager {
     //Удалить задачу по ID
-    void deleteByID(int deleteTaskID);
+    boolean deleteByID(int deleteTaskID);
 
     //Метод для удаления всех задач
     void deleteAllTasks();
@@ -27,13 +27,13 @@ public interface TaskManager {
     Task getTaskInfo(int ID);
 
     //Обновление содержимого обычной задачи
-    void updateTask(Task updatedTask);
+    boolean updateTask(Task updatedTask);
 
     //Обновление содержимого эпик задачи
-    void updateEpic(Epic updatedEpic);
+    boolean updateEpic(Epic updatedEpic);
 
     //Обновление содержимого подзадачи
-    void updateSubtask(Subtask updatedSubtask);
+    boolean updateSubtask(Subtask updatedSubtask);
 
     //Получение списка простых задач
     ArrayList<Task> listOfTasks();
@@ -45,13 +45,13 @@ public interface TaskManager {
     ArrayList<Subtask> listOfSubtasks();
 
     //Добавить обычную задачу
-    void addTask(Task task);
+    boolean addTask(Task task);
 
     //Добавить эпик задачу
-    void addEpicTask(Epic epic);
+    boolean addEpicTask(Epic epic);
 
     //Добавить подзадачу
-    void addSubtask(Subtask subtask);
+    boolean addSubtask(Subtask subtask);
 
     //Создание списка подзадач одного эпика
     ArrayList<Subtask> createSubtaskListOfOneEpic(int epicIDForFullInfo);

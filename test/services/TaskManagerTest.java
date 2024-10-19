@@ -30,7 +30,7 @@ class TaskManagerTest {
     void tasksShouldNotChangeAtAllStagesOfAdding() {
         final Task task = new Task("Test taskName", "Test taskDescription");
         taskManager.addTask(task);
-        final Task savedTask = taskManager.getTaskInfo(0);
+        final Task savedTask = taskManager.getTaskInfo(1);
 
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
@@ -46,7 +46,7 @@ class TaskManagerTest {
     void epicsShouldNotChangeAtAllStagesOfAdding() {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
-        final Task savedEpic = taskManager.getTaskInfo(0);
+        final Task savedEpic = taskManager.getTaskInfo(1);
 
         assertNotNull(savedEpic, "Эпик не найден.");
         assertEquals(epic, savedEpic, "Эпики не совпадают.");
@@ -63,9 +63,9 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
-        final Task savedSubtask = taskManager.getTaskInfo(1);
+        final Task savedSubtask = taskManager.getTaskInfo(2);
 
         assertNotNull(savedSubtask, "Подзадача не найдена.");
         assertEquals(subtask, savedSubtask, "Подзадачи не совпадают.");
@@ -80,7 +80,7 @@ class TaskManagerTest {
     @Test
     void subtaskOrTaskShouldNotBeAddedAsEpicToSubtask() {
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
 
         final ArrayList<Subtask> subtasks = taskManager.listOfSubtasks();
@@ -90,7 +90,7 @@ class TaskManagerTest {
         final Task task = new Task("Test taskName", "Test taskDescription");
         taskManager.addTask(task);
         final Subtask subtask2 = new Subtask("Test subtaskName2", "Test subtaskName2");
-        subtask2.setEpicID(0);
+        subtask2.setEpicID(1);
         taskManager.addSubtask(subtask2);
 
         final ArrayList<Subtask> subtasks2 = taskManager.listOfSubtasks();
@@ -106,12 +106,12 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskDescription");
-        subtask.setEpicID(1);
+        subtask.setEpicID(2);
         taskManager.addSubtask(subtask);
 
-        final Task savedTask = taskManager.getTaskInfo(0);
-        final Task savedEpic = taskManager.getTaskInfo(1);
-        final Task savedSubtask = taskManager.getTaskInfo(2);
+        final Task savedTask = taskManager.getTaskInfo(1);
+        final Task savedEpic = taskManager.getTaskInfo(2);
+        final Task savedSubtask = taskManager.getTaskInfo(3);
 
         assertEquals(task, savedTask, "Задачи не совпадают.");
         assertEquals(epic, savedEpic, "Эпики не совпадают.");
@@ -126,7 +126,7 @@ class TaskManagerTest {
         final Task task = new Task(name, description);
         taskManager.addTask(task);
 
-        final Task savedTask = taskManager.getTaskInfo(0);
+        final Task savedTask = taskManager.getTaskInfo(1);
 
         assertEquals(name, savedTask.getName(), "Имена задач не совпадают.");
         assertEquals(description, savedTask.getDescription(), "Описание задач не совпадает.");
@@ -141,7 +141,7 @@ class TaskManagerTest {
         epic.subtasksAdd(subtaskID);
         taskManager.addEpicTask(epic);
 
-        final Task savedEpic = taskManager.getTaskInfo(0);
+        final Task savedEpic = taskManager.getTaskInfo(1);
         final ArrayList<Integer> subtasksID = epic.getSubtasksID();
 
         assertEquals(name, savedEpic.getName(), "Имена эпиков не совпадают.");
@@ -157,14 +157,14 @@ class TaskManagerTest {
         String name = "Test subtaskName";
         String description = "Test subtaskDescription";
         final Subtask subtask = new Subtask(name, description);
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
 
-        final Subtask savedSubtask = (Subtask) taskManager.getTaskInfo(1);
+        final Subtask savedSubtask = (Subtask) taskManager.getTaskInfo(2);
 
         assertEquals(name, savedSubtask.getName(), "Имена подзадач не совпадают.");
         assertEquals(description, savedSubtask.getDescription(), "Описание подзадач не совпадает.");
-        assertEquals(0, savedSubtask.getEpicID(), "ID привязанного эпика не совпадает.");
+        assertEquals(1, savedSubtask.getEpicID(), "ID привязанного эпика не совпадает.");
     }
 
     @Test
@@ -173,7 +173,7 @@ class TaskManagerTest {
         task.setID(7);
         taskManager.addTask(task);
 
-        assertNotNull(taskManager.getTaskInfo(0), "Для задачи не сгенерировался новый ID");
+        assertNotNull(taskManager.getTaskInfo(1), "Для задачи не сгенерировался новый ID");
         assertNull(taskManager.getTaskInfo(7), "Задаче был присвоен заданный ID");
     }
 
@@ -184,7 +184,7 @@ class TaskManagerTest {
         final Epic epic2 = new Epic("Test epicName2", "Test epicDescription2");
         taskManager.addEpicTask(epic2);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
 
         ArrayList<Subtask> subtasks = taskManager.listOfSubtasks();
@@ -224,10 +224,10 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
         final Subtask subtask2 = new Subtask("Test subtaskName2", "Test subtaskName2");
-        subtask2.setEpicID(0);
+        subtask2.setEpicID(1);
         taskManager.addSubtask(subtask2);
 
         ArrayList<Subtask> subtasks = taskManager.listOfSubtasks();
@@ -250,7 +250,7 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
         final Task task = new Task("Test taskName", "Test taskDescription");
         taskManager.addTask(task);
@@ -279,11 +279,11 @@ class TaskManagerTest {
         final Task task = new Task("Test taskName", "Test taskDescription");
         taskManager.addTask(task);
         final Task taskUpdate = new Task("Updated taskName", "Updated taskDescription");
-        taskUpdate.setID(0);
+        taskUpdate.setID(1);
         taskUpdate.setTaskStatus(TaskStatus.IN_PROGRESS);
         taskManager.updateTask(taskUpdate);
 
-        Task updatedTask = taskManager.getTaskInfo(0);
+        Task updatedTask = taskManager.getTaskInfo(1);
 
         assertEquals(taskUpdate.getName(), updatedTask.getName(), "Имя не обновилось");
         assertEquals(taskUpdate.getDescription(), updatedTask.getDescription(), "Описание не обновилось");
@@ -295,10 +295,10 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Epic epicUpdate = new Epic("Updated epicName", "Updated epicDescription");
-        epicUpdate.setID(0);
+        epicUpdate.setID(1);
         taskManager.updateEpic(epicUpdate);
 
-        Epic updatedEpic = (Epic) taskManager.getTaskInfo(0);
+        Epic updatedEpic = (Epic) taskManager.getTaskInfo(1);
 
         assertEquals(epicUpdate.getName(), updatedEpic.getName(), "Имя не обновилось");
         assertEquals(epicUpdate.getDescription(), updatedEpic.getDescription(), "Описание не обновилось");
@@ -309,15 +309,15 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
         final Subtask subtaskUpdate = new Subtask("Updated subtaskName",
                 "Updated subtaskDescription");
-        subtaskUpdate.setID(1);
+        subtaskUpdate.setID(2);
         subtaskUpdate.setTaskStatus(TaskStatus.IN_PROGRESS);
         taskManager.updateSubtask(subtaskUpdate);
 
-        Subtask updatedSubtask = (Subtask) taskManager.getTaskInfo(1);
+        Subtask updatedSubtask = (Subtask) taskManager.getTaskInfo(2);
 
         assertEquals(subtaskUpdate.getName(), updatedSubtask.getName(), "Имя не обновилось");
         assertEquals(subtaskUpdate.getDescription(), updatedSubtask.getDescription(), "Описание не обновилось");
@@ -329,17 +329,17 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
 
-        ArrayList<Subtask> subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(0);
+        ArrayList<Subtask> subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(1);
 
         assertFalse(subtasksFromEpic.isEmpty(), "Подзадачи не возвращаются.");
         assertEquals(1, subtasksFromEpic.size(), "Неверное количество подзадач.");
         assertEquals(subtask, subtasksFromEpic.getFirst(), "Подзадачи не совпадают.");
 
         taskManager.deleteSubtasks();
-        subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(0);
+        subtasksFromEpic = taskManager.createSubtaskListOfOneEpic(1);
 
         assertEquals(0, subtasksFromEpic.size(), "Удаленная подзадача не открепилась от эпика");
     }
@@ -351,12 +351,12 @@ class TaskManagerTest {
         final Epic epic = new Epic("Test epicName", "Test epicDescription");
         taskManager.addEpicTask(epic);
         final Subtask subtask = new Subtask("Test subtaskName", "Test subtaskName");
-        subtask.setEpicID(1);
+        subtask.setEpicID(2);
         taskManager.addSubtask(subtask);
 
-        taskManager.getTaskInfo(0);
         taskManager.getTaskInfo(1);
         taskManager.getTaskInfo(2);
+        taskManager.getTaskInfo(3);
 
 
         final ArrayList<Task> history = taskManager.getHistory();

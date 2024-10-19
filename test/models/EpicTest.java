@@ -28,12 +28,12 @@ class EpicTest {
         Duration duration = Duration.ofMinutes(10);
         LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 1, 1);
         subtask = new Subtask("Test subtaskName", "Test subtaskName", duration, dateTime);
-        subtask.setEpicID(0);
+        subtask.setEpicID(1);
         taskManager.addSubtask(subtask);
         Duration duration2 = Duration.ofMinutes(100);
         LocalDateTime dateTime2 = LocalDateTime.of(2001, 1, 1, 1, 1);
         subtask2 = new Subtask("Test subtaskName2", "Test subtaskName2", duration2, dateTime2);
-        subtask.setEpicID(0);
+        subtask2.setEpicID(1);
         taskManager.addSubtask(subtask2);
     }
 
@@ -48,19 +48,19 @@ class EpicTest {
     void epicShouldHaveStatusInProgressWhenNotAllSubtasksNewAndDoneWhenAllSubtasksDone() {
         Subtask subtaskUpdate = new Subtask("Test updatedName", "Test updatedDescription");
         subtaskUpdate.setTaskStatus(TaskStatus.IN_PROGRESS);
-        subtaskUpdate.setID(1);
+        subtaskUpdate.setID(2);
         taskManager.updateSubtask(subtaskUpdate);
 
 
         assertEquals(TaskStatus.IN_PROGRESS, epic.taskStatus, "Эпик не изменил статус на IN_PROGRESS");
 
         subtaskUpdate.setTaskStatus(TaskStatus.DONE);
-        subtaskUpdate.setID(1);
+        subtaskUpdate.setID(2);
         taskManager.updateSubtask(subtaskUpdate);
 
         assertEquals(TaskStatus.IN_PROGRESS, epic.taskStatus, "Эпик не имеет статус IN_PROGRESS");
 
-        subtaskUpdate.setID(2);
+        subtaskUpdate.setID(3);
         taskManager.updateSubtask(subtaskUpdate);
 
         assertEquals(TaskStatus.DONE, epic.taskStatus, "Эпик не изменил статус на DONE");
@@ -70,22 +70,22 @@ class EpicTest {
     void epicShouldBeNewIfAllSubtasksNewOrHasNoSubtasksAfterDeleteSubtask() {
         Subtask subtaskUpdate = new Subtask("Test updatedName", "Test updatedDescription");
         subtaskUpdate.setTaskStatus(TaskStatus.IN_PROGRESS);
-        subtaskUpdate.setID(1);
-        taskManager.updateSubtask(subtaskUpdate);
-
-
-        assertEquals(TaskStatus.IN_PROGRESS, epic.taskStatus, "Эпик не изменил статус на IN_PROGRESS");
-
-        taskManager.deleteByID(1);
-
-        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда все подзадачи NEW");
-
         subtaskUpdate.setID(2);
         taskManager.updateSubtask(subtaskUpdate);
+
 
         assertEquals(TaskStatus.IN_PROGRESS, epic.taskStatus, "Эпик не изменил статус на IN_PROGRESS");
 
         taskManager.deleteByID(2);
+
+        assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда все подзадачи NEW");
+
+        subtaskUpdate.setID(3);
+        taskManager.updateSubtask(subtaskUpdate);
+
+        assertEquals(TaskStatus.IN_PROGRESS, epic.taskStatus, "Эпик не изменил статус на IN_PROGRESS");
+
+        taskManager.deleteByID(3);
 
         assertTrue(epic.emptySubtasksID(), "Список привязанных подзадач не пуст, после удаления всех подзадач");
         assertEquals(TaskStatus.NEW, epic.taskStatus, "Эпик не изменил статус на NEW, когда нет подзадач");
