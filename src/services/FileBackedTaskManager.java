@@ -19,11 +19,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    //Загрузка сохраненых задач из файала
+    //Загрузка сохраненных задач из файла
     public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file.getPath()))) {
-            fileReader.readLine();      //для пропуска первой строки, т.к. в ней оглавление
+            fileReader.readLine();      //Для пропуска первой строки, т.к. в ней оглавление
             String line;
             while ((line = fileReader.readLine()) != null) {
                 String[] taskParameters = line.split(",");
@@ -32,14 +32,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case "TASK" -> {
                         Task task = Task.fromString(line);
                         fileBackedTaskManager.tasks.put(task.getID(), task);
+                        if (task.getStartTime() != null) {
+                            fileBackedTaskManager.prioritizedTasks.add(task);
+                        }
+                        if (task.getID() > fileBackedTaskManager.taskID) {
+                            fileBackedTaskManager.taskID = task.getID();
+                        }
                     }
                     case "EPIC" -> {
                         Epic epic = Epic.fromString(line);
                         fileBackedTaskManager.epicTasks.put(epic.getID(), epic);
+                        if (epic.getStartTime() != null) {
+                            fileBackedTaskManager.prioritizedTasks.add(epic);
+                        }
+                        if (epic.getID() > fileBackedTaskManager.taskID) {
+                            fileBackedTaskManager.taskID = epic.getID();
+                        }
                     }
                     case "SUBTASK" -> {
                         Subtask subtask = Subtask.fromString(line);
                         fileBackedTaskManager.subtasks.put(subtask.getID(), subtask);
+                        if (subtask.getStartTime() != null) {
+                            fileBackedTaskManager.prioritizedTasks.add(subtask);
+                        }
+                        if (subtask.getID() > fileBackedTaskManager.taskID) {
+                            fileBackedTaskManager.taskID = subtask.getID();
+                        }
                     }
                 }
             }
@@ -53,13 +71,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             fileBackedTaskManager.epicTasks.put(epic.getID(), epic);
         }
 
+        //Обновим время в эпиках
+        for (Epic epic : fileBackedTaskManager.epicTasks.values()) {
+            epic.epicTimeCalculate(fileBackedTaskManager.subtasks);
+        }
+
+        fileBackedTaskManager.taskID += 1;
         return fileBackedTaskManager;
     }
 
     //Сохранение существующих задач в файл
     private void save() {
         try (Writer fileWriter = new FileWriter(file)) {
-            fileWriter.write("id,type,name,status,description,epic");
+            fileWriter.write("id,type,name,status,description,duration,startTime,epic");
 
             for (Task task : tasks.values()) {
                 fileWriter.write(toString(task));
@@ -79,13 +103,33 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     //Преобразование информации о задаче в строку
     public String toString(Task task) {
         if (task instanceof Epic) {
-            return String.format("\n%d,%s,%s,%s,%s,", task.getID(), TaskType.EPIC, task.getName(), task.getTaskStatus(), task.getDescription());
+            return String.format("\n%d,%s,%s,%s,%s,%s,%s,",
+                    task.getID(),
+                    TaskType.EPIC,
+                    task.getName(),
+                    task.getTaskStatus(),
+                    task.getDescription(),
+                    (task.getDuration() != null ? task.getDuration().toMinutes() : ""),
+                    (task.getStartTime() != null ? task.getStartTime() : ""));
         } else if (task instanceof Subtask) {
-            return String.format("\n%d,%s,%s,%s,%s,%s",
-                    task.getID(), TaskType.SUBTASK, task.getName(), task.getTaskStatus(), task.getDescription(), ((Subtask) task).getEpicID());
+            return String.format("\n%d,%s,%s,%s,%s,%s,%s,%s",
+                    task.getID(),
+                    TaskType.SUBTASK,
+                    task.getName(),
+                    task.getTaskStatus(),
+                    task.getDescription(),
+                    (task.getDuration() != null ? task.getDuration().toMinutes() : ""),
+                    (task.getStartTime() != null ? task.getStartTime() : ""),
+                    ((Subtask) task).getEpicID());
         } else {
-            return String.format("\n%d,%s,%s,%s,%s,",
-                    task.getID(), TaskType.TASK, task.getName(), task.getTaskStatus(), task.getDescription());
+            return String.format("\n%d,%s,%s,%s,%s,%s,%s,",
+                    task.getID(),
+                    TaskType.TASK,
+                    task.getName(),
+                    task.getTaskStatus(),
+                    task.getDescription(),
+                    (task.getDuration() != null ? task.getDuration().toMinutes() : ""),
+                    (task.getStartTime() != null ? task.getStartTime() : ""));
         }
     }
 

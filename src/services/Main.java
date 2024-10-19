@@ -6,6 +6,8 @@ import models.Task;
 import models.TaskStatus;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
@@ -73,22 +75,22 @@ public class Main {
                     break;
 
                 case "3":
-                    //Удалеие всех задач
+                    //Удаление всех задач
                     taskManager.deleteAllTasks();
                     break;
 
                 case "3.1":
-                    //Удалеие задач
+                    //Удаление задач
                     taskManager.deleteTasks();
                     break;
 
                 case "3.2":
-                    //Удалеие эпик задач
+                    //Удаление эпик задач
                     taskManager.deleteEpics();
                     break;
 
                 case "3.3":
-                    //Удалеие подзадач
+                    //Удаление подзадач
                     taskManager.deleteSubtasks();
                     break;
 
@@ -270,6 +272,124 @@ public class Main {
                     break;
 
 
+                case "20.1":
+                    //Добавить задачу
+                    System.out.println("Введите название Задачи");
+                    String name2 = scanner.nextLine();
+                    System.out.println("Введите описание Задачи");
+                    String description2 = scanner.nextLine();
+                    System.out.println("Введите время в минутах");
+                    int time = scanner.nextInt();
+                    Duration duration2 = Duration.ofMinutes(time);
+                    System.out.println("Введите время начала:");
+                    System.out.println("Год:");
+                    int year = scanner.nextInt();
+                    System.out.println("Месяц:");
+                    int month = scanner.nextInt();
+                    System.out.println("День месяца:");
+                    int dayOfMonth = scanner.nextInt();
+                    System.out.println("Час:");
+                    int hour = scanner.nextInt();
+                    System.out.println("Минуты:");
+                    int minute = scanner.nextInt();
+                    LocalDateTime dateTime2 = LocalDateTime.of(year, month, dayOfMonth, hour, minute);
+                    Task task2 = new Task(name2, description2, duration2, dateTime2);
+                    fileBackedTaskManager.addTask(task2);
+                    break;
+
+                case "20.3":
+                    //Добавить подзадачу
+                    System.out.println("Введите ID Эпик задачи к которой относится подзадача");
+                    int epicID2 = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Введите название Подзадачи");
+                    String subtaskName2 = scanner.nextLine();
+                    System.out.println("Введите описание Подзадачи");
+                    String subtaskDescription2 = scanner.nextLine();
+                    System.out.println("Введите время в минутах");
+                    int time2 = scanner.nextInt();
+                    Duration duration3 = Duration.ofMinutes(time2);
+                    System.out.println("Введите время начала:");
+                    System.out.println("Год:");
+                    int year2 = scanner.nextInt();
+                    System.out.println("Месяц:");
+                    int month2 = scanner.nextInt();
+                    System.out.println("День месяца:");
+                    int dayOfMonth2 = scanner.nextInt();
+                    System.out.println("Час:");
+                    int hour2 = scanner.nextInt();
+                    System.out.println("Минуты:");
+                    int minute2 = scanner.nextInt();
+                    LocalDateTime dateTime3 = LocalDateTime.of(year2, month2, dayOfMonth2, hour2, minute2);
+                    Subtask subtask2 = new Subtask(subtaskName2, subtaskDescription2, duration3, dateTime3);
+                    subtask2.setEpicID(epicID2);
+                    fileBackedTaskManager.addSubtask(subtask2);
+                    break;
+
+                case "21":
+                    System.out.println(fileBackedTaskManager.getPrioritizedTasks());
+                    break;
+
+                case "22.1":
+                    System.out.println("Введите ID");
+                    int idOfUpdatedTask221 = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Введите название Задачи");
+                    String name221 = scanner.nextLine();
+                    System.out.println("Введите описание Задачи");
+                    String description221 = scanner.nextLine();
+                    System.out.println("Введите время в минутах");
+                    int time221 = scanner.nextInt();
+                    Duration duration221 = Duration.ofMinutes(time221);
+                    System.out.println("Введите время начала:");
+                    System.out.println("Год:");
+                    int year221 = scanner.nextInt();
+                    System.out.println("Месяц:");
+                    int month221 = scanner.nextInt();
+                    System.out.println("День месяца:");
+                    int dayOfMonth221 = scanner.nextInt();
+                    System.out.println("Час:");
+                    int hour221 = scanner.nextInt();
+                    System.out.println("Минуты:");
+                    int minute221 = scanner.nextInt();
+                    LocalDateTime dateTime221 = LocalDateTime.of(year221, month221, dayOfMonth221, hour221, minute221);
+                    Task task221 = new Task(name221, description221, duration221, dateTime221);
+                    task221.setID(idOfUpdatedTask221);
+                    fileBackedTaskManager.updateTask(task221);
+                    break;
+
+                case "22.3":
+                    System.out.println("Введите ID");
+                    int idOfUpdatedSubtask223 = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Введите ID Эпик задачи к которой относится подзадача");
+                    int epicID223 = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Введите название Подзадачи");
+                    String subtaskName223 = scanner.nextLine();
+                    System.out.println("Введите описание Подзадачи");
+                    String subtaskDescription223 = scanner.nextLine();
+                    System.out.println("Введите время в минутах");
+                    int time223 = scanner.nextInt();
+                    Duration duration223 = Duration.ofMinutes(time223);
+                    System.out.println("Введите время начала:");
+                    System.out.println("Год:");
+                    int year223 = scanner.nextInt();
+                    System.out.println("Месяц:");
+                    int month223 = scanner.nextInt();
+                    System.out.println("День месяца:");
+                    int dayOfMonth223 = scanner.nextInt();
+                    System.out.println("Час:");
+                    int hour223 = scanner.nextInt();
+                    System.out.println("Минуты:");
+                    int minute223 = scanner.nextInt();
+                    LocalDateTime dateTime223 = LocalDateTime.of(year223, month223, dayOfMonth223, hour223, minute223);
+                    Subtask subtask223 = new Subtask(subtaskName223, subtaskDescription223, duration223, dateTime223);
+                    subtask223.setEpicID(epicID223);
+                    subtask223.setID(idOfUpdatedSubtask223);
+                    fileBackedTaskManager.updateSubtask(subtask223);
+                    break;
+
                 case "0":
                     return;
 
@@ -299,5 +419,9 @@ public class Main {
         System.out.println("10 - Загрузка задач из сохранения");
         System.out.println("11.1 - Список простых задач, 11.2 - Список эпик задач," +
                 " 11.3 - Список подзадач");
+        System.out.println("\nДальнейшие команды нужны для тестирования сохранения задач с параметрами времени:");
+        System.out.println("20.1 - Добавление обычной задачи, 20.3 - Добавление подзадачи, (эпик - 9.2)");
+        System.out.println("21 - Список задач, отсортированный по времени их начала");
+        System.out.println("22.1 - Обновление времени задачи, 22.3 - Обновление времени подзадачи");
     }
 }
