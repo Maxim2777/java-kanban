@@ -119,7 +119,7 @@ public class EpicHandler extends BaseHttpHandler {
         String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         Epic epic = gson.fromJson(json, Epic.class);
 
-        boolean success = false;
+        boolean success;
         if (epic.getID() != 0) {
             success = taskManager.updateEpic(epic);
         } else {
