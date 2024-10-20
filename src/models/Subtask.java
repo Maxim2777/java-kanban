@@ -52,8 +52,8 @@ public class Subtask extends Task {
                 "\nОписание: " + description +
                 "\nСтатус: " + taskStatus +
                 "\nID эпика, к которому относится - " + epicID +
-                (getStartTime() != null ? "\nНачало: " + startTime.format(formatter) : "") +
-                (getStartTime() != null ? "\nКонец: " + getEndTime().format(formatter) : "") +
+                (getStartTime() != null ? "\nНачало: " + startTime : "") +
+                (getStartTime() != null ? "\nКонец: " + getEndTime() : "") +
                 (getDuration() != null ? "\nДлительность: " + duration.toMinutes() + " минут" : "");
     }
 

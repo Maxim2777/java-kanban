@@ -115,7 +115,7 @@ public class Epic extends Task {
         return epic;
     }
 
-    //расчет
+    //расчет времени эпика
     public void epicTimeCalculate(Map<Integer, Subtask> subtasks) {
         Duration totalDuration = Duration.ZERO;
         LocalDateTime earliestStartTime = null;
@@ -156,8 +156,8 @@ public class Epic extends Task {
                 "\nОписание: " + description +
                 "\nСтатус: " + taskStatus +
                 "\nID подзадач, которые относятся к данному эпику: " + subtasksID +
-                (getStartTime() != null ? "\nНачало: " + startTime.format(formatter) : "") +
-                (getStartTime() != null ? "\nКонец: " + getEndTime().format(formatter) : "") +
+                (getStartTime() != null ? "\nНачало: " + startTime : "") +
+                (getStartTime() != null ? "\nКонец: " + getEndTime() : "") +
                 (getDuration() != null && duration.toMinutes() > 0 ?
                         "\nДлительность: " + duration.toMinutes() + " минут" : "");
     }

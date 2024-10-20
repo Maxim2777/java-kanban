@@ -134,45 +134,66 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addTask(Task task) {
-        super.addTask(task);
-        save();
+    public boolean addTask(Task task) {
+        boolean isAdded = super.addTask(task);
+        if (isAdded) {
+            save();
+        }
+        return isAdded;
     }
 
     @Override
-    public void addEpicTask(Epic epic) {
-        super.addEpicTask(epic);
-        save();
+    public boolean addEpicTask(Epic epic) {
+        boolean isAdded = super.addEpicTask(epic);
+        if (isAdded) {
+            save();
+        }
+        return isAdded;
     }
 
     @Override
-    public void addSubtask(Subtask subtask) {
-        super.addSubtask(subtask);
-        save();
+    public boolean addSubtask(Subtask subtask) {
+        boolean isAdded = super.addSubtask(subtask);
+        if (isAdded) {
+            save();
+        }
+        return isAdded;
     }
 
     @Override
-    public void updateTask(Task updatedTask) {
-        super.updateTask(updatedTask);
-        save();
+    public boolean updateTask(Task updatedTask) {
+        boolean isUpdated = super.updateTask(updatedTask);
+        if (isUpdated) {
+            save();
+        }
+        return isUpdated;
     }
 
     @Override
-    public void updateEpic(Epic updatedEpic) {
-        super.updateEpic(updatedEpic);
-        save();
+    public boolean updateEpic(Epic updatedEpic) {
+        boolean isUpdated = super.updateEpic(updatedEpic);
+        if (isUpdated) {
+            save();
+        }
+        return isUpdated;
     }
 
     @Override
-    public void updateSubtask(Subtask updatedSubtask) {
-        super.updateSubtask(updatedSubtask);
-        save();
+    public boolean updateSubtask(Subtask updatedSubtask) {
+        boolean isUpdated = super.updateSubtask(updatedSubtask);
+        if (isUpdated) {
+            save();
+        }
+        return isUpdated;
     }
 
     @Override
-    public void deleteByID(int deleteTaskID) {
-        super.deleteByID(deleteTaskID);
-        save();
+    public boolean deleteByID(int deleteTaskID) {
+        boolean isDeleted = super.deleteByID(deleteTaskID);
+        if (isDeleted) {
+            save();
+        }
+        return isDeleted;
     }
 
     @Override
