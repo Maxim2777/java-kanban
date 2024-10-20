@@ -46,7 +46,7 @@ public class HttpTaskServerHistoryTest {
     }
 
     @Test
-    public void testGetHistory() throws IOException, InterruptedException {
+    public void historyShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачи и добавляем их в менеджер
         Task task1 = new Task("Task 1", "Description 1", Duration.ofMinutes(30), LocalDateTime.now());
         taskManager.addTask(task1);
@@ -93,7 +93,7 @@ public class HttpTaskServerHistoryTest {
     }
 
     @Test
-    public void testGetEmptyHistory() throws IOException, InterruptedException {
+    public void emptyHistoryShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос для получения истории
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/history");

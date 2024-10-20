@@ -46,7 +46,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testAddEpic() throws IOException, InterruptedException {
+    public void epicShouldBeAddedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик
         Epic epic = new Epic("Epic 1", "Testing epic 1");
         // конвертируем его в JSON
@@ -71,7 +71,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testGetEpic() throws IOException, InterruptedException {
+    public void epicShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 2", "Testing epic 2");
         taskManager.addEpicTask(epic);
@@ -95,7 +95,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testUpdateEpic() throws IOException, InterruptedException {
+    public void epicShouldUpdateCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 3", "Testing epic 3");
         taskManager.addEpicTask(epic);
@@ -121,7 +121,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testDeleteEpic() throws IOException, InterruptedException {
+    public void epicShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 4", "Testing epic 4");
         taskManager.addEpicTask(epic);
@@ -141,7 +141,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testDeleteAllEpics() throws IOException, InterruptedException {
+    public void allEpicsAtOnceShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпики и добавляем их в менеджер
         taskManager.addEpicTask(new Epic("Epic 5", "Description 5"));
         taskManager.addEpicTask(new Epic("Epic 6", "Description 6"));
@@ -161,7 +161,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testGetAllEpics() throws IOException, InterruptedException {
+    public void allEpicsAtOnceShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпики и добавляем их в менеджер
         Epic epic1 = new Epic("Epic 7", "Description 7");
         Epic epic2 = new Epic("Epic 8", "Description 8");
@@ -187,7 +187,7 @@ public class HttpTaskServerEpicsTest {
     }
 
     @Test
-    public void testGetEpicSubtasks() throws IOException, InterruptedException {
+    public void allEpicSubtasksShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 9", "Testing epic 9");
         taskManager.addEpicTask(epic);

@@ -48,7 +48,7 @@ public class HttpTaskServerPrioritizedTasksTest {
     }
 
     @Test
-    public void testGetPrioritizedTasks() throws IOException, InterruptedException {
+    public void prioritizedTasksShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачи и добавляем их в менеджер
         Task task = new Task("Task 1", "Description 1", Duration.ofMinutes(30), LocalDateTime.now());
         taskManager.addTask(task);
@@ -89,7 +89,7 @@ public class HttpTaskServerPrioritizedTasksTest {
     }
 
     @Test
-    public void testGetEmptyPrioritizedTasks() throws IOException, InterruptedException {
+    public void emptyPrioritizedTasksShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос для получения задач по приоритету
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/prioritized");

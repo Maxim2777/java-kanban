@@ -46,7 +46,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testAddSubtask() throws IOException, InterruptedException {
+    public void subtaskShouldBeAddedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 1", "Testing epic 1");
         taskManager.addEpicTask(epic);
@@ -75,7 +75,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testGetSubtask() throws IOException, InterruptedException {
+    public void subtaskShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 2", "Testing epic 2");
         taskManager.addEpicTask(epic);
@@ -102,7 +102,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testUpdateSubtask() throws IOException, InterruptedException {
+    public void subtaskShouldUpdateCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 3", "Testing epic 3");
         taskManager.addEpicTask(epic);
@@ -133,7 +133,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testDeleteSubtask() throws IOException, InterruptedException {
+    public void subtaskShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 4", "Testing epic 4");
         taskManager.addEpicTask(epic);
@@ -158,7 +158,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testDeleteAllSubtasks() throws IOException, InterruptedException {
+    public void allSubtasksAtOnceShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 5", "Testing epic 5");
         taskManager.addEpicTask(epic);
@@ -187,7 +187,7 @@ public class HttpTaskServerSubtasksTest {
     }
 
     @Test
-    public void testGetAllSubtasks() throws IOException, InterruptedException {
+    public void allSubtasksAtOnceShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём эпик и добавляем его в менеджер
         Epic epic = new Epic("Epic 6", "Testing epic 6");
         taskManager.addEpicTask(epic);

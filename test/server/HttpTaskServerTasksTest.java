@@ -44,7 +44,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testAddTask() throws IOException, InterruptedException {
+    public void taskShouldBeAddedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачу
         Task task = new Task("Test 2", "Testing task 2", Duration.ofMinutes(5), LocalDateTime.now());
         // конвертируем её в JSON
@@ -69,7 +69,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testGetTask() throws IOException, InterruptedException {
+    public void taskShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачу и добавляем её в менеджер
         Task task = new Task("Test 3", "Testing task 3", Duration.ofMinutes(10), LocalDateTime.now());
         taskManager.addTask(task);
@@ -91,7 +91,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testUpdateTask() throws IOException, InterruptedException {
+    public void taskShouldUpdateCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачу и добавляем её в менеджер
         Task task = new Task("Test 4", "Testing task 4", Duration.ofMinutes(15), LocalDateTime.now());
         taskManager.addTask(task);
@@ -117,7 +117,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testDeleteTask() throws IOException, InterruptedException {
+    public void taskShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачу и добавляем её в менеджер
         Task task = new Task("Test 5", "Testing task 5", Duration.ofMinutes(20), LocalDateTime.now());
         taskManager.addTask(task);
@@ -137,7 +137,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testDeleteAllTasks() throws IOException, InterruptedException {
+    public void allTasksAtOnceShouldBeDeletedCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачи и добавляем их в менеджер
         taskManager.addTask(new Task("Task 6", "Description 6", Duration.ofMinutes(25), LocalDateTime.now()));
         taskManager.addTask(new Task("Task 7", "Description 7", Duration.ofMinutes(30), LocalDateTime.now()));
@@ -157,7 +157,7 @@ public class HttpTaskServerTasksTest {
     }
 
     @Test
-    public void testGetAllTasks() throws IOException, InterruptedException {
+    public void allTasksAtOnceShouldGetCorrectlyViaServer() throws IOException, InterruptedException {
         // создаём задачи и добавляем их в менеджер
         taskManager.addTask(new Task("Task 8", "Description 8", Duration.ofMinutes(25), LocalDateTime.now()));
         taskManager.addTask(new Task("Task 9", "Description 9", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(100)));
